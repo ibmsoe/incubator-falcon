@@ -1,0 +1,26 @@
+Fork of apache/incubator-falcon. Done 2014 October 21th.
+
+Patch https://issues.apache.org/jira/browse/FALCON-774 has been applied.
+This patch enables to compile Falcon and Oozie with Java 1.7 instead of 1.6 required by Oozie.
+
+Compilation and test of Falcon:
+Follow instructions provided by Falcon README and Installation-steps.txt files .
+In short ([]: means optional):
+  export HADOOP_VERSION=2.4.1
+  export HADOOP_PROFILE=hadoop-2
+  export OOZIE_VERSION=4.0.1
+  mvn compile -P $HADOOP_PROFILE -Dhadoop.version=$HADOOP_VERSION -DskipTests [-Doozie.version=$OOZIE_VERSION]
+  mvn    test -P $HADOOP_PROFILE -Dhadoop.version=$HADOOP_VERSION             [-Doozie.version=$OOZIE_VERSION]
+  mvn assembly:assembly -Pdistributed,$HADOOP_PROFILE -DskipTests -DskipCheck=true
+
+However, on some environments, issue may appear (and then stay present) while compiling, dealing with:
+  [INFO] Apache Falcon Oozie EL Extension .................. FAILURE [  0.174 s]
+  [ERROR] Failed to execute goal on project falcon-oozie-el-extension:
+	Could not resolve dependencies for project org.apache.falcon:falcon-oozie-el-extension:jar:0.5-incubating:
+		Failure to find org.apache.oozie:oozie-core:jar:4.0.1-falcon in http://repo1.maven.org/maven2 ...
+This error disappeared by:
+  - Cleaning the Maven repository: rm -rf ~/.m2/repository/*
+  - Using the following commands for building Halcon:
+      export HADOOP_PROFILE=hadoop-2
+      export HADOOP_VERSION=2.4.1
+      export MAVEN_OPTS="-Xmx1024m -XX:MaxPermSize=256m" && mvn install -P $HADOOP_PROFILE -Dhadoop.version=$HADOOP_VERSION -DskipTests
