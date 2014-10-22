@@ -22,7 +22,7 @@ A. Building & Installing Falcon
 
 You would need the following installed:
 
-* JDK 1.6
+* JDK 1.7
 * Maven 3.x
 
 
