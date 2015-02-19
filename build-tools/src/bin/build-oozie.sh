@@ -84,6 +84,6 @@ esac
 
 rm `find . -name 'pom.xml.bak'`
 
-$MVN_CMD clean install -DskipTests
+$MVN_CMD clean source:jar install -DjavaVersion=1.7 -DtargetJavaVersion=1.6 -DskipTests -Phadoop-2
 
 popd
