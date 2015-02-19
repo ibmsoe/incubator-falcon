@@ -9,8 +9,10 @@ In short ([]: means optional):
   export HADOOP_VERSION=2.4.1
   export HADOOP_PROFILE=hadoop-2
   export OOZIE_VERSION=4.0.1
+  export NO_VERIFY=-Xverify:none  {for IBM JVM}
+  export NO_VERIFY=-XX:-UseSplitVerifier {for openjdk}
   mvn compile -P $HADOOP_PROFILE -Dhadoop.version=$HADOOP_VERSION -DskipTests [-Doozie.version=$OOZIE_VERSION]
-  mvn    test -P $HADOOP_PROFILE -Dhadoop.version=$HADOOP_VERSION             [-Doozie.version=$OOZIE_VERSION]
+  mvn test -P $HADOOP_PROFILE -Dhadoop.version=$HADOOP_VERSION [-Doozie.version=$OOZIE_VERSION] -Dmvn.test.jvmargs=$NO_VERIFY
   mvn assembly:assembly -Pdistributed,$HADOOP_PROFILE -DskipTests -DskipCheck=true
 
 However, on some environments, issue may appear (and then stay present) while compiling, dealing with:
